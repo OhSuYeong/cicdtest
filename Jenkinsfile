@@ -9,8 +9,8 @@ pipeline {
     stage('docker build and push') {
       steps {
         sh '''
-        docker build -t ohsuyeong/cicdtest:green .
-        docker push ohsuyeong/cicdtest:green
+        sudo docker build -t ohsuyeong/cicdtest:green .
+        sudo docker push ohsuyeong/cicdtest:green
         '''
 
       }
@@ -18,8 +18,8 @@ pipeline {
     stage('deploy kubernetes') {
       steps {
         sh '''
-        kubectl create deployment pl-bulk-prod --image=ohsuyeong/cicdtest:green
-        kubectl expose deployment pl-bulk-prod --type-LoadBalancer --port=8080 \
+        export KUBECONFIG=/etc/kubernetes/admin.conf && kubectl create deployment pl-bulk-prod --image=ohsuyeong/cicdtest:green
+        export KUBECONFIG=/etc/kubernetes/admin.conf && kubectl expose deployment pl-bulk-prod --type-LoadBalancer --port=8080 \
                                                                    --target-port=80 --name=pl-bulk-prod-
         '''
       }
