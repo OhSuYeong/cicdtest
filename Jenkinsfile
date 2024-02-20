@@ -18,10 +18,8 @@ pipeline {
     stage('deploy kubernetes') {
       steps {
         sh '''
-        kubectl create deployment pl-bulk-prod --image=ohsuyeong/cicdtest:green
-        kubectl expose deployment pl-bulk-prod --type-LoadBalancer --port=8080 \
-                                                                   --target-port=80 --name=pl-bulk-prod-
-        '''
+        ansible master -m copy -a 'src=a.yaml dest=/root/a.yaml'
+        ansible master -m shell -a 'export KUBECONFIG=/etc/kubernetes/admin.conf && kubectl apply -f /root/a.yaml'
       }
     }
   }
