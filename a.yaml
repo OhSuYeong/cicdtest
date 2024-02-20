@@ -19,3 +19,17 @@ spec:
           image: ohsuyeong/cicdtest:blue
           ports:
             - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myweb-lb
+spec:
+  ports:
+  - name: web
+    port: 80  #LB와 연결할 포트
+    targetPort: 80
+ 
+  selector:
+    color: blue
+  type: LoadBalancer
