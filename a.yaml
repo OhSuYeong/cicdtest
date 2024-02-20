@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myweb-deploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      color: blue  # "1"
+  # 아래내용은 Pod 에 대한 구성내용
+  template:
+    metadata:
+      name: myweb-ctn-pod
+      labels:
+        color: blue  # 반드시 "1" 과 동일해야 함
+    spec:
+      containers:
+        - name: myweb-ctn
+          image: ohsuyeong/cicdtest:blue
+          ports:
+            - containerPort: 80
