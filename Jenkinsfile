@@ -18,8 +18,8 @@ pipeline {
     stage('deploy kubernetes') {
       steps {
         sh '''
-        ansible master -m copy -a 'src=a.yaml dest=/root/a.yaml'
-        ansible master -m shell -a 'export KUBECONFIG=/etc/kubernetes/admin.conf && kubectl apply -f /root/a.yaml'
+        ansible master -m shell -a 'export KUBECONFIG=/etc/kubernetes/admin.conf && kubectl create deploy web-green --replicas=3 --image=ohsuyeong/cicdtest:green'
+        ansible master -m shell -a 'export KUBECONFIG=/etc/kubernetes/admin.conf && kubectl expose deploy web-green --type=LoadBalancer --port=80 --target-port=80 --name=web-green-svc'
       }
     }
   }
