@@ -18,8 +18,8 @@ pipeline {
     stage('deploy kubernetes') {
       steps {
         sh '''
-        export KUBECONFIG=/etc/kubernetes/admin.conf && kubectl create deployment pl-bulk-prod --image=ohsuyeong/cicdtest:green
-        export KUBECONFIG=/etc/kubernetes/admin.conf && kubectl expose deployment pl-bulk-prod --type-LoadBalancer --port=8080 \
+        kubectl create deployment pl-bulk-prod --image=ohsuyeong/cicdtest:green
+        kubectl expose deployment pl-bulk-prod --type-LoadBalancer --port=8080 \
                                                                    --target-port=80 --name=pl-bulk-prod-
         '''
       }
